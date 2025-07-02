@@ -20,14 +20,12 @@ const SignInPopup = ({ open, onClose }) => {
             onClose();
             navigate("/signin");
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-full"
-        >
+          className="bg-blue-600 text-white px-4 py-2 rounded-full">
           Go to Sign In
         </button>
         <button
           onClick={onClose}
-          className="ml-4 text-gray-600"
-        >
+          className="ml-4 text-gray-600">
           Cancel
         </button>
       </div>
