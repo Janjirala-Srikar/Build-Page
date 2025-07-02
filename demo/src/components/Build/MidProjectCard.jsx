@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-
 import SignInPopup from "../../utils/SignInPopup";
 // Import midProjects from MidProjectDetail
 import { midProjects } from "../../pages/Build/MidProjectDetail";
@@ -11,7 +10,11 @@ const MidProjectCard = ({ project, setShowPopup }) => {
   const navigate = useNavigate();
   const [showSignInPopup, setShowSignInPopup] = useState(false);
 
+  const isMLProject = project.title === "Machine Learning Predictor";
+
   const handleClick = () => {
+    if (isMLProject) return; // Do nothing for ML Predictor
+
     if (project.free) {
       navigate(`/build/midproject/${project._id}`, { state: { project } });
     } else if (!user && project.locked) {
@@ -26,8 +29,9 @@ const MidProjectCard = ({ project, setShowPopup }) => {
   return (
     <>
       <div 
-        className="group cursor-pointer w-full" 
-        onClick={handleClick}>
+        className={`group cursor-pointer w-full ${isMLProject ? "pointer-events-none" : ""}`} 
+        onClick={handleClick}
+      >
         <div
           className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-700 mb-3"
           style={{
@@ -40,6 +44,14 @@ const MidProjectCard = ({ project, setShowPopup }) => {
             alt={project.title}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
+          {/* Coming Soon overlay for Machine Learning Predictor */}
+          {isMLProject && (
+            <div className="absolute inset-0 bg-white/80 dark:bg-[#001233]/80 backdrop-blur-[2px] flex items-center justify-center z-20">
+              <span className="text-lg font-bold text-gray-900 dark:text-white text-center px-4">
+                Coming Soon...<br />Stay Tuned!
+              </span>
+            </div>
+          )}
           {project.free ? (
             <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[0.65rem] font-bold bg-gradient-to-r from-[#10b981] via-[#059669] to-[#047857] text-white shadow-lg z-10 leading-none">
               Free
