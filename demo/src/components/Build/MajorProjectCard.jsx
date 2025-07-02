@@ -2,61 +2,37 @@ import React from "react";
 
 const MajorProjectCard = ({ project, onAccess }) => {
   return (
-    <div
-      className="bg-white rounded-2xl shadow-lg flex flex-col md:flex-row w-full max-w-2xl mx-auto overflow-hidden"
-      style={{
-        minHeight: "340px",
-      }}
-    >
-      {/* Left: Project Image */}
-      <div className="md:w-1/2 w-full flex-shrink-0 flex items-center justify-center bg-[#10172b]">
+    <div className="flex flex-col items-center w-full">
+      <div
+        className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-slate-700 mb-2"
+        style={{
+          width: "420px",
+          height: "420px",
+          maxWidth: "100%",
+          margin: "1rem auto",
+        }}>
         <img
           src={project.image}
           alt={project.title}
-          className="object-contain w-full h-full md:rounded-l-2xl rounded-t-2xl"
-          style={{ minHeight: "220px", maxHeight: "340px" }}
-        />
-      </div>
+          className="w-full h-full object-cover transition-transform duration-300"/>
 
-      {/* Right: Project Info */}
-      <div className="md:w-1/2 w-full flex flex-col p-5 md:p-7">
-        <div className="flex items-center gap-2 mb-2">
-          {project.trainerSupported && (
-            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-              Trainer Supported
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+          <div className="absolute inset-0 bg-white/60 dark:bg-[#001233]/60 backdrop-blur-[4px]"></div>
+          <div className="relative z-10 flex flex-col items-center justify-center">
+            <span className="text-xl md:text-2xl font-bold text-[#001233] dark:text-white drop-shadow-lg text-center">
+              Coming Soon...<br />Stay Tuned!
             </span>
-          )}
-          {project.club && (
-            <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-              Club
-            </span>
-          )}
+          </div>
         </div>
-        <h3 className="text-lg md:text-2xl font-bold text-[#001233] mb-1 leading-tight">
+      </div>
+      <div className="w-full text-center">
+        <h3
+          className="font-bold leading-tight text-black dark:text-white w-full text-center text-lg md:text-1.3xl"
+          style={{
+            fontFamily: "'Poppins', sans-serif",
+          }}>
           {project.title}
         </h3>
-        <p className="text-gray-700 text-sm md:text-base mb-2 line-clamp-2">
-          {project.description}
-        </p>
-        <div className="mb-2">
-          {project.tags && project.tags.map((tag, idx) => (
-            <span
-              key={idx}
-              className="text-blue-600 text-xs md:text-sm font-semibold mr-2"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        <div className="text-[#007bff] text-xs md:text-sm mb-2">
-          Duration : {project.duration}
-        </div>
-        <button
-          className="mt-auto  hover:bg-green-600 text-white font-bold py-2 rounded-full w-full text-base md:text-lg transition"
-          onClick={onAccess}
-        >
-          Coming Soon!
-        </button>
       </div>
     </div>
   );
