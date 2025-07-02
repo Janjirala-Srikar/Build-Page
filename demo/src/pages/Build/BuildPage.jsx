@@ -18,8 +18,24 @@ const BuildPage = () => {
 
   const safeMidProjects = Array.isArray(midProjects) ? midProjects : [];
   const safeMajorProjects = Array.isArray(majorProjects) ? majorProjects : [];
-  
-  const processedMidProjects = safeMidProjects.map((project, index) => ({
+
+  const allowedTitles = [
+    "E-commerce Product Listing Page",
+    "Data Visualization Dashboard",
+    "Social Media Feed with API",
+    "Expense Tracker with Analytics",
+    "Recipe Finder App",
+    "Machine Learning Predictor"
+  ];
+
+  let filteredProjects = safeMidProjects.filter(project => allowedTitles.includes(project.title));
+  const mlIndex = filteredProjects.findIndex(p => p.title === "Machine Learning Predictor");
+  if (mlIndex !== -1) {
+    const [mlProject] = filteredProjects.splice(mlIndex, 1);
+    filteredProjects.push(mlProject);
+  }
+
+  const processedMidProjects = filteredProjects.map((project, index) => ({
     ...project,
     free: index < 2,
     locked: index >= 2,
@@ -27,30 +43,36 @@ const BuildPage = () => {
   }));
 
   return (
-    <main className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 pt-8 pb-16" style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
-      {/* Header */}
-      <div className="w-full flex flex-row items-center justify-between mb-8 min-h-[100px] sm:min-h-[120px] px-1 sm:px-4">
-        {/* Left: Heading */}
+    <main className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 pt-0 pb-16" style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
+      {/* Hero/Header Section */}
+      <div className="w-full flex flex-row items-center justify-between min-h-screen px-1 sm:px-4">
+        {/* Left: Huge Heading */}
         <div className="flex-1">
-          <h1 className="header-gradient mb-1 sm:mb-2 md:mb-3 lowercase leading-none"
-            style={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1 }}>
+          <h1
+            className="header-gradient mb-2 md:mb-4 lowercase leading-none text-5xl md:text-8xl lg:text-9xl"
+            style={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1 }}
+          >
             build
           </h1>
-          <h1 className="header-gradient mt-2 sm:mt-3 md:mt-4 uppercase leading-none"
-            style={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1 }}>
+          <h1
+            className="header-gradient mt-2 md:mt-4 uppercase leading-none text-5xl md:text-8xl lg:text-9xl"
+            style={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1 }}
+          >
             PROJECTS
           </h1>
-          <p className="mt-3 sm:mt-6 mb-3 sm:mb-6 text-[#1356D3] text-xs xs:text-sm sm:text-base md:text-lg"
-            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
+          <p
+            className="mt-6 mb-3 sm:mb-6 text-[#1356D3] text-base md:text-2xl lg:text-3xl"
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}
+          >
             Whoa! You're dangerously close to becoming a real coder
           </p>
         </div>
-        {/* Right: GIF */}
+        {/* Right: Huge GIF */}
         <div className="flex-shrink-0 ml-2 sm:ml-8 flex items-center justify-center h-full">
           <img
             src="/assets/blue_cup.gif"
             alt="Blue Cup"
-            className="w-12 h-12 xs:w-16 xs:h-16 sm:w-24 sm:h-24 md:w-[150px] md:h-[150px] object-contain rounded-2xl"
+            className="w-32 h-32 xs:w-48 xs:h-48 sm:w-64 sm:h-64 md:w-[350px] md:h-[350px] lg:w-[420px] lg:h-[420px] object-contain rounded-2xl"
             style={{
               background: "transparent",
             }}
@@ -58,7 +80,7 @@ const BuildPage = () => {
         </div>
       </div>
 
-      {/* Mini Projects Section */}
+      {/* Mini Projects Section (starts after 100vh) */}
       <section className="mb-16 max-w-7xl mx-auto px-2 sm:px-4 md:px-8">
         <div style={{ marginBottom: "0.15rem" }}>
           <span className="section-header italic">mini</span>
@@ -92,7 +114,7 @@ const BuildPage = () => {
                 ))}
           </div>
         )}
-     
+
       </section>
 
       {/* Mid-Level Projects Section */}
@@ -167,8 +189,6 @@ const BuildPage = () => {
             </div>
           </>
         )}
-
-       
       </section>
 
       {/* UI Source Library Section */}
@@ -212,10 +232,7 @@ const BuildPage = () => {
             </div>
           ))}
         </div>
-
-        {/* Caption */}
       </section>
-
 
       <AccessPopup open={showPopup} onClose={() => setShowPopup(false)} />
     </main>
