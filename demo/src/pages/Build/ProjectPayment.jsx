@@ -7,7 +7,6 @@ import {
   Clock,
   Star,
   Smartphone,
-  Trophy,
   CreditCard
 } from 'lucide-react';
 import useAuth from '../../hooks/useAuth';
@@ -23,8 +22,7 @@ const ProjectPayment = () => {
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('upi');
-  const [userXP, setUserXP] = useState(0);
+  const [selectedPaymentMethod] = useState('upi'); // Only UPI now
   const [showPaymentDetails, setShowPaymentDetails] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [eligibilityData, setEligibilityData] = useState(null);
@@ -52,8 +50,6 @@ const ProjectPayment = () => {
           const projectData = await getProjectById(projectId);
           setProject(projectData);
         }
-        
-        // default values for project data
         if (!project) {
           setProject({
             title: 'Project',
@@ -65,11 +61,6 @@ const ProjectPayment = () => {
             rating: 0,
             features: []
           });
-        }
-
-        // Mock user XP
-        if (user) {
-          setUserXP(1200);
         }
       } catch (error) {
         console.error('Error fetching project details:', error);
@@ -120,19 +111,12 @@ const ProjectPayment = () => {
       return;
     }
 
-    if (selectedPaymentMethod === 'xp' && userXP < 1000) {
-      alert('You do not have enough XP points to redeem this project.');
-      return;
-    }
-
     setIsProcessing(true);
 
     try {
       const mockResponse = {
         eligible: true,
-        paymentAllowed: true,
-        userTotalXP: userXP,
-        totalPossibleXP: 1000
+        paymentAllowed: true
       };
 
       setEligibilityData(mockResponse);
@@ -146,7 +130,7 @@ const ProjectPayment = () => {
         alert('You already have a pending or approved payment for this project.');
       } else {
         setPaymentStatus('not-eligible');
-        alert(`Not eligible for project yet. You need to complete prerequisites first.\n\nYour Progress: ${mockResponse.userTotalXP}/${mockResponse.totalPossibleXP} XP`);
+        alert('Not eligible for project yet. You need to complete prerequisites first.');
       }
     } catch (error) {
       console.error('Error initiating payment:', error);
@@ -158,7 +142,7 @@ const ProjectPayment = () => {
   };
 
   const handleSubmit = async () => {
-    if (selectedPaymentMethod === 'upi' && !formData.transactionId) {
+    if (!formData.transactionId) {
       alert('Please enter the transaction ID after completing the payment.');
       return;
     }
@@ -171,13 +155,8 @@ const ProjectPayment = () => {
     setIsProcessing(true);
 
     try {
-      if (selectedPaymentMethod === 'xp') {
-        alert('Project redeemed successfully with XP points! You now have access to the project materials.');
-        navigate('/build');
-      } else {
-        alert('Payment submitted successfully! Your payment is being processed and you will receive confirmation via email within 48 hours.');
-        navigate('/build');
-      }
+      alert('Payment submitted successfully! Your payment is being processed and you will receive confirmation via email within 48 hours.');
+      navigate('/build');
     } catch (error) {
       console.error('Payment submission error:', error);
       if (error.message?.includes('Transaction ID already exists')) {
@@ -288,12 +267,8 @@ const ProjectPayment = () => {
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Choose Payment Method</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div
-                    className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                      selectedPaymentMethod === 'upi'
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/30 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                    onClick={() => setSelectedPaymentMethod('upi')}>
+                    className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all border-blue-500 bg-blue-50 dark:bg-blue-500/10`}
+                  >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -305,48 +280,18 @@ const ProjectPayment = () => {
                           <p className="text-lg font-bold text-blue-600 dark:text-blue-400">₹{price.toLocaleString()}</p>
                         </div>
                       </div>
-                      {selectedPaymentMethod === 'upi' && (
-                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                          <CheckCircle className="w-4 h-4 text-white" />
-                        </div>
-                      )}
+                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-white" />
+                      </div>
                     </div>
-                    {selectedPaymentMethod === 'upi' && (
-                      <div className="absolute top-2 right-2">
-                        <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">Recommended</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div
-                    className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                      selectedPaymentMethod === 'xp'
-                        ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-500/10'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700/30 hover:border-gray-400 dark:hover:border-gray-500'
-                    }`}
-                    onClick={() => setSelectedPaymentMethod('xp')}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-yellow-600 rounded-lg flex items-center justify-center">
-                          <Trophy className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900 dark:text-white">Redeem XP Points</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">Use your earned XP points</p>
-                          <p className="text-lg font-bold text-yellow-600 dark:text-yellow-400">1000 XP</p>
-                        </div>
-                      </div>
-                      {selectedPaymentMethod === 'xp' && (
-                        <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
-                          <CheckCircle className="w-4 h-4 text-white" />
-                        </div>
-                      )}
+                    <div className="absolute top-2 right-2">
+                      <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">Recommended</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {showPaymentDetails && selectedPaymentMethod === 'upi' && (
+              {showPaymentDetails && (
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Complete Your Payment</h3>
                   <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
@@ -389,42 +334,10 @@ const ProjectPayment = () => {
                 </div>
               )}
 
-              {selectedPaymentMethod === 'xp' && (
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">XP Points Redemption</h3>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-gray-700 dark:text-gray-300">Available XP Points:</span>
-                      <span className="text-yellow-600 dark:text-yellow-400 font-bold">{userXP} XP</span>
-                    </div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-gray-700 dark:text-gray-300">Required XP Points:</span>
-                      <span className="text-gray-900 dark:text-white font-bold">1000 XP</span>
-                    </div>
-                    {userXP >= 1000 ? (
-                      <div className="bg-green-50 dark:bg-green-500/20 border border-green-200 dark:border-green-500 rounded-lg p-4">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                          <span className="text-green-700 dark:text-green-400 font-medium">You have enough XP points!</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="bg-red-50 dark:bg-red-500/20 border border-red-200 dark:border-red-500 rounded-lg p-4">
-                        <div className="flex items-center gap-2">
-                          <span className="text-red-700 dark:text-red-400 font-medium">
-                            You need {1000 - userXP} more XP points to redeem this project.
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
               {!showPaymentDetails ? (
                 <button
                   onClick={handleInitiatePayment}
-                  disabled={isProcessing || (selectedPaymentMethod === 'xp' && userXP < 1000)}
+                  disabled={isProcessing}
                   className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
                   {isProcessing ? (
                     <>
@@ -434,14 +347,14 @@ const ProjectPayment = () => {
                   ) : (
                     <>
                       <CreditCard className="w-5 h-5" />
-                      {selectedPaymentMethod === 'upi' ? 'Get Project Access' : 'Redeem with XP'}
+                      Get Project Access
                     </>
                   )}
                 </button>
               ) : (
                 <button
                   onClick={handleSubmit}
-                  disabled={isProcessing || (selectedPaymentMethod === 'upi' && !formData.transactionId) || paymentStatus !== 'eligible'}
+                  disabled={isProcessing || !formData.transactionId || paymentStatus !== 'eligible'}
                   className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
                   {isProcessing ? (
                     <>
