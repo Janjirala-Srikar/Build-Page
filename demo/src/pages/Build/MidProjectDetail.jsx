@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const midProjects = [
+export const midProjects = [
   {
     _id: "1",
     title: "E-commerce Product Listing Page",
@@ -49,7 +49,7 @@ const midProjects = [
   },
   {
     _id: "4",
-    title: "Expense Tracker",
+    title: "Expense Tracker with Analytics",
     description: "Track your expenses and manage budgets effectively.",
     price: 'XXXX',
     duration: "1 week",
@@ -64,7 +64,7 @@ const midProjects = [
   },
   {
     _id: "5",
-    title: "Recipe Finder",
+    title: "Recipe Finder App",
     description: "Find recipes based on ingredients you have.",
     price: 'XXXX',
     duration: "2 weeks",

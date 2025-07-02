@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
   CheckCircle,
@@ -16,10 +16,12 @@ import { getProjectById } from '../../api/project';
 const ProjectPayment = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const { isAuthenticated, user } = useAuth();
   const { openLogin } = useAuthModalContext();
   
-  const [project, setProject] = useState(null);
+  // Prefer project from navigation state if available
+  const [project, setProject] = useState(location.state?.project || null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPaymentMethod] = useState('upi'); // Only UPI now
@@ -35,6 +37,7 @@ const ProjectPayment = () => {
     transactionId: ''
   });
 
+  console.log(project);
   const projectId = searchParams.get('projectId');
 
   useEffect(() => {
@@ -43,6 +46,11 @@ const ProjectPayment = () => {
 
   // Fetch project details
   useEffect(() => {
+    // Only fetch if not provided in navigation state
+    if (location.state?.project) {
+      setIsLoading(false);
+      return;
+    }
     const fetchProjectDetails = async () => {
       try {
         setIsLoading(true);
@@ -78,9 +86,8 @@ const ProjectPayment = () => {
         setIsLoading(false);
       }
     };
-
     fetchProjectDetails();
-  }, [projectId, user]);
+  }, [projectId, user, location.state]);
 
   useEffect(() => {
     if (user) {

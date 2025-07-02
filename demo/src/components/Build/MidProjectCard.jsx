@@ -1,7 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+
 import SignInPopup from "../../utils/SignInPopup";
+// Import midProjects from MidProjectDetail
+import { midProjects } from "../../pages/Build/MidProjectDetail";
 
 const MidProjectCard = ({ project, setShowPopup }) => {
   const { user } = useContext(UserContext);
@@ -14,8 +17,10 @@ const MidProjectCard = ({ project, setShowPopup }) => {
     } else if (!user && project.locked) {
       setShowSignInPopup(true);
     } else if (!user?.isClubMember && project.locked) {
-      navigate(`/payment?projectId=${project._id}&type=mid`);
-    } 
+      // Find the full project details from midProjects by title
+      const fullProject = midProjects.find(p => p.title === project.title);
+      navigate(`/payment?projectId=${project._id}&type=mid`, { state: { project: fullProject || project } });
+    }
   };
 
   return (

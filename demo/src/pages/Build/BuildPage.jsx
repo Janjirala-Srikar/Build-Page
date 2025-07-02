@@ -70,7 +70,7 @@ const BuildPage = () => {
         {/* Right: Huge GIF */}
         <div className="flex-shrink-0 ml-2 sm:ml-8 flex items-center justify-center h-full">
           <img
-            src="/assets/blue_cup.gif"
+            src="https://i.postimg.cc/k4MzD8PC/blue-cup-unscreen.gif"
             alt="Blue Cup"
             className="w-32 h-32 xs:w-48 xs:h-48 sm:w-64 sm:h-64 md:w-[350px] md:h-[350px] lg:w-[420px] lg:h-[420px] object-contain rounded-2xl"
             style={{
