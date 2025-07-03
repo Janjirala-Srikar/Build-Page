@@ -9,51 +9,39 @@ import {
   Smartphone,
   CreditCard
 } from 'lucide-react';
-import useAuth from '../../hooks/useAuth';
-import { useAuthModalContext } from '../../context/AuthModalContext';
 import { getProjectById } from '../../api/project';
 
 const ProjectPayment = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
-  const { isAuthenticated, user } = useAuth();
-  const { openLogin } = useAuthModalContext();
-  
+
   // Prefer project from navigation state if available
   const [project, setProject] = useState(location.state?.project || null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedPaymentMethod] = useState('upi'); // Only UPI now
-  const [showPaymentDetails, setShowPaymentDetails] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState(null);
-  const [eligibilityData, setEligibilityData] = useState(null);
-  const [paymentInitiated, setPaymentInitiated] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
-    transactionId: ''
+    phone: ''
   });
 
-  console.log(project);
   const projectId = searchParams.get('projectId');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Fetch project details
+  // Fetch project details if not provided in navigation state
   useEffect(() => {
-    // Only fetch if not provided in navigation state
     if (location.state?.project) {
       setIsLoading(false);
       return;
     }
     const fetchProjectDetails = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         if (projectId) {
           const projectData = await getProjectById(projectId);
           setProject(projectData);
@@ -71,7 +59,6 @@ const ProjectPayment = () => {
           });
         }
       } catch (error) {
-        console.error('Error fetching project details:', error);
         setProject({
           title: 'Error Loading Project',
           description: 'Could not load project details',
@@ -87,17 +74,7 @@ const ProjectPayment = () => {
       }
     };
     fetchProjectDetails();
-  }, [projectId, user, location.state]);
-
-  useEffect(() => {
-    if (user) {
-      setFormData(prev => ({
-        ...prev,
-        name: user.firstName || '',
-        email: user.email || ''
-      }));
-    }
-  }, [user]);
+  }, [projectId, location.state]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -107,75 +84,13 @@ const ProjectPayment = () => {
     });
   };
 
-  const handleInitiatePayment = async () => {
-    if (!isAuthenticated) {
-      openLogin();
-      return;
-    }
-
+  const handleInitiatePayment = () => {
     if (!formData.name || !formData.email || !formData.phone) {
       alert('Please fill in all required fields.');
       return;
     }
-
     setIsProcessing(true);
-
-    try {
-      const mockResponse = {
-        eligible: true,
-        paymentAllowed: true
-      };
-
-      setEligibilityData(mockResponse);
-
-      if (mockResponse.eligible && mockResponse.paymentAllowed) {
-        setPaymentStatus('eligible');
-        setShowPaymentDetails(true);
-        setPaymentInitiated(true);
-      } else if (mockResponse.eligible && !mockResponse.paymentAllowed) {
-        setPaymentStatus('already-paid');
-        alert('You already have a pending or approved payment for this project.');
-      } else {
-        setPaymentStatus('not-eligible');
-        alert('Not eligible for project yet. You need to complete prerequisites first.');
-      }
-    } catch (error) {
-      console.error('Error initiating payment:', error);
-      const errorMessage = error.response?.data?.message || error.message || 'Failed to check payment eligibility. Please try again.';
-      alert(errorMessage);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!formData.transactionId) {
-      alert('Please enter the transaction ID after completing the payment.');
-      return;
-    }
-
-    if (!paymentInitiated || paymentStatus !== 'eligible') {
-      alert('Please initiate payment first by clicking "Get Project Access".');
-      return;
-    }
-
-    setIsProcessing(true);
-
-    try {
-      alert('Payment submitted successfully! Your payment is being processed and you will receive confirmation via email within 48 hours.');
-      navigate('/build');
-    } catch (error) {
-      console.error('Payment submission error:', error);
-      if (error.message?.includes('Transaction ID already exists')) {
-        alert('This transaction ID has already been used. Please enter a different transaction ID.');
-      } else if (error.message?.includes('already have a pending or approved payment')) {
-        alert('You already have a pending or approved payment for this project.');
-      } else {
-        alert('An error occurred while processing your payment. Please try again.');
-      }
-    } finally {
-      setIsProcessing(false);
-    }
+    navigate("/payment-gateway", { state: { project } });
   };
 
   if (isLoading) {
@@ -245,7 +160,7 @@ const ProjectPayment = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your full name"/>
+                      placeholder="Enter your full name" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
@@ -255,7 +170,7 @@ const ProjectPayment = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your email address"/>
+                      placeholder="Enter your email address" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
@@ -265,16 +180,17 @@ const ProjectPayment = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your phone number"/>
+                      placeholder="Enter your phone number" />
                   </div>
                 </div>
               </div>
 
+              {/* UPI Payment Method Box */}
               <div className="mb-8">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Choose Payment Method</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1">
                   <div
-                    className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all border-blue-500 bg-blue-50 dark:bg-blue-500/10`}
+                    className="relative p-4 rounded-lg border-2 border-blue-500 bg-blue-50 dark:bg-blue-500/10 cursor-pointer transition-all"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -284,7 +200,7 @@ const ProjectPayment = () => {
                         <div>
                           <h4 className="font-semibold text-gray-900 dark:text-white">UPI Payment</h4>
                           <p className="text-sm text-gray-600 dark:text-gray-400">Secure payment with UPI</p>
-                          <p className="text-lg font-bold text-blue-600 dark:text-blue-400">₹{price.toLocaleString()}</p>
+                          <p className="text-lg font-bold text-blue-600 dark:text-blue-400">₹{price ? price : "XXXX"}</p>
                         </div>
                       </div>
                       <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
@@ -298,84 +214,23 @@ const ProjectPayment = () => {
                 </div>
               </div>
 
-              {showPaymentDetails && (
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Complete Your Payment</h3>
-                  <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
-                    <div className="text-center mb-6">
-                      <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                        <Smartphone className="w-8 h-8 text-white" />
-                      </div>
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">UPI Payment</h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">Google Pay, PhonePe, Paytm, BHIM</p>
-                    </div>
-                    <div className="text-center mb-6">
-                      <div className="bg-white rounded-lg p-4 inline-block shadow-md mb-4">
-                        <img src="/QR1.jpg" alt="Payment QR Code" className="w-48 h-48 mx-auto" />
-                      </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Scan QR code or pay to UPI ID: <strong className="text-gray-900 dark:text-white">9676663136@axl</strong>
-                      </p>
-                      <p className="text-lg font-bold text-blue-600 dark:text-blue-400 mt-2">
-                        Amount: ₹{price.toLocaleString()}
-                      </p>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Transaction ID *
-                      </label>
-                      <input
-                        type="text"
-                        name="transactionId"
-                        value={formData.transactionId}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Enter transaction ID after payment"
-                        required/>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        Enter the transaction ID you received after completing the UPI payment
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {!showPaymentDetails ? (
-                <button
-                  onClick={handleInitiatePayment}
-                  disabled={isProcessing}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
-                  {isProcessing ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Checking Eligibility...
-                    </>
-                  ) : (
-                    <>
-                      <CreditCard className="w-5 h-5" />
-                      Get Project Access
-                    </>
-                  )}
-                </button>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={isProcessing || !formData.transactionId || paymentStatus !== 'eligible'}
-                  className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2">
-                  {isProcessing ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle className="w-5 h-5" />
-                      Confirm Payment
-                    </>
-                  )}
-                </button>
-              )}
+              <button
+                onClick={handleInitiatePayment}
+                disabled={isProcessing}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                {isProcessing ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    Get Project Access
+                  </>
+                )}
+              </button>
             </div>
           </motion.div>
 
