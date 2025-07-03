@@ -7,7 +7,7 @@ import UILibrary from "./pages/Build/UILibrary";
 import { UserProvider } from "./context/UserContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import PaymentGateway from "./pages/Build/PaymentGateway";
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
             <Route path="/build/midproject/:id" element={<ProjectDetail />} />
             <Route path="/payment" element={<ProjectPayment />} />
             <Route path="/build/ui" element={<UILibrary />} />
+            <Route path="/payment-gateway" element={<PaymentGateway />} />
           </Routes>
         </div>
         <Footer />
