@@ -420,7 +420,7 @@ const ProjectDetail = () => {
               <>
                 <div className="mb-6">
                   <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                    🧠 Why This is Useful
+                    Why This is Useful
                   </h3>
                   <ul className="list-disc ml-6 space-y-2">
                     {details.whyUseful.map((item, i) => (
@@ -432,7 +432,7 @@ const ProjectDetail = () => {
                 </div>
                 <div className="mb-6">
                   <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                    🚀 Next Steps
+                    Next Steps
                   </h3>
                   <ul className="list-disc ml-6 space-y-2">
                     {details.nextSteps.map((item, i) => (
@@ -449,7 +449,7 @@ const ProjectDetail = () => {
               <>
                 <div className="mb-6">
                   <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                    🚀 Why This is Useful
+                  Why This is Useful
                   </h3>
                   <ul className="list-disc ml-6 space-y-2">
                     {details.whyUseful.map((item, i) => (
@@ -477,7 +477,7 @@ const ProjectDetail = () => {
             {project.title === "Checklist App" && (
               <div className="mb-6">
                 <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                  🚀 Make It Yours
+                Make It Yours
                 </h3>
                 <ul className="list-disc ml-6 space-y-2">
                   {details.expandProject.map((item, i) => (
