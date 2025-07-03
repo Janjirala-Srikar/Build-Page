@@ -449,7 +449,7 @@ const ProjectDetail = () => {
               <>
                 <div className="mb-6">
                   <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                  Why This is Useful
+                    Why This is Useful
                   </h3>
                   <ul className="list-disc ml-6 space-y-2">
                     {details.whyUseful.map((item, i) => (
@@ -461,7 +461,7 @@ const ProjectDetail = () => {
                 </div>
                 <div className="mb-6">
                   <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                    ✨ Bonus: Next Steps
+                    Bonus: Next Steps
                   </h3>
                   <ul className="list-disc ml-6 space-y-2">
                     {details.nextSteps.map((item, i) => (
@@ -477,7 +477,7 @@ const ProjectDetail = () => {
             {project.title === "Checklist App" && (
               <div className="mb-6">
                 <h3 style={headingStyle} className="dark:text-[#bceaff]">
-                Make It Yours
+                  Make It Yours
                 </h3>
                 <ul className="list-disc ml-6 space-y-2">
                   {details.expandProject.map((item, i) => (
@@ -553,24 +553,20 @@ const ProjectDetail = () => {
           <svg
             className="w-12 h-12 mx-auto mb-2 text-blue-600 opacity-90"
             fill="currentColor"
-            viewBox="0 0 20 20"
-          >
+            viewBox="0 0 20 20">
             <path
               fillRule="evenodd"
               d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
+              clipRule="evenodd"/>
           </svg>
           <h4
             className="font-bold text-lg mb-1"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
+            style={{ fontFamily: "'Poppins', sans-serif" }}>
             Try This Project
           </h4>
           <p
             className="text-sm opacity-90"
-            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}
-          >
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             Code, compile, and run instantly
           </p>
         </div>
@@ -583,15 +579,13 @@ const ProjectDetail = () => {
             )
           }
           className="w-full bg-blue-800 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-900 transition-colors duration-200 shadow-lg"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
-        >
+          style={{ fontFamily: "'Poppins', sans-serif" }}>
         Build Project
         </button>
 
         <p
           className="text-xs opacity-75 mt-3"
-          style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}
-        >
+          style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
           Interactive coding environment with live preview
         </p>
                 </div>
