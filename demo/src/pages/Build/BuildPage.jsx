@@ -124,7 +124,13 @@ const BuildPage = () => {
         </div>
 
         {loading ? (
-          <p style={{ color: "#059669" }}>Loading mini projects...</p>
+          <LoadingScreen 
+    message="Loading mini projects..." 
+    showMessage={true}
+    fullScreen={true}
+    size={40}
+    duration={800}
+  />
         ) : error ? (
           <p style={{ color: "#dc2626" }}>Error: {error}</p>
         ) : (
