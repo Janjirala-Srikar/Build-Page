@@ -87,7 +87,7 @@ const PaymentGateway = () => {
           </h2>
 
           <div className="mb-4 text-blue-800 font-semibold text-lg">
-            ₹{project.price}
+            ₹150/month
           </div>
 
           <div className="mb-6 text-sm text-gray-600 dark:text-gray-400">
