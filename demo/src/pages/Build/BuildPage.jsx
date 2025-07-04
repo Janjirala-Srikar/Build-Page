@@ -7,6 +7,7 @@ import AccessPopup from "../../utils/accessPopup";
 import useMiniProjects from "../../hooks/useMiniProjects";
 import useMidProjects from "../../hooks/useMidProjects";
 import useMajorProjects from "../../hooks/useMajorProjects";
+import LoadingScreen from "../../components/Loader/Loader3D";
 
 const BuildPage = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -97,7 +98,13 @@ const BuildPage = () => {
         </div>
 
         {loading ? (
-          <p style={{ color: "#059669" }}>Loading mini projects...</p>
+          <LoadingScreen 
+            message="Loading..." 
+            showMessage={true}
+            fullScreen={true}
+            size={40}
+            duration={800}
+          />
         ) : error ? (
           <p style={{ color: "#dc2626" }}>Error: {error}</p>
         ) : (
