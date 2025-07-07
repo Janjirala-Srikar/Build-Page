@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import SignInPopup from "../../utils/SignInPopup";
-// Import midProjects from MidProjectDetail
 import { midProjects } from "../../pages/Build/MidProjectDetail";
 
 const MidProjectCard = ({ project, setShowPopup }) => {
@@ -88,14 +87,6 @@ const MidProjectCard = ({ project, setShowPopup }) => {
               {project.description}
             </p>
           )}
-          <span
-            className="text-[0.85rem] font-semibold"
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-              color: project.free ? "#059669" : "#007bff",
-            }}>
-            {project.free ? "Free" : project.price || "₹XXX"}
-          </span>
         </div>
       </div>
       <SignInPopup open={showSignInPopup} onClose={() => setShowSignInPopup(false)} />
