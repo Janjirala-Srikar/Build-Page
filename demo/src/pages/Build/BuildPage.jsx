@@ -48,7 +48,7 @@ const BuildPage = () => {
       {/* Hero/Header Section */}
       <div className="w-full flex flex-row items-center justify-between min-h-screen px-1 sm:px-4">
         {/* Left: Huge Heading */}
-        <div className="flex-1"> {/* Added a div to wrap the headings and paragraph for proper flex alignment */}
+        <div className="flex-1">
           <h1
             className="
               header-gradient
