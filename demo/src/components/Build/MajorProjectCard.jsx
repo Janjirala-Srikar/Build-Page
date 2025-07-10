@@ -12,7 +12,7 @@ const MajorProjectCard = ({ project, onAccess }) => {
           margin: "1rem auto",
         }}>
         <img
-          src={project.image}
+          src="/major_background.png"
           alt={project.title}
           className="w-full h-full object-cover transition-transform duration-300"/>
 
