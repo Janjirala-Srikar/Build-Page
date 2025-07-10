@@ -10,7 +10,7 @@ const MiniProjectCard = ({ project }) => {
         className="
           bg-[#e8ebf0] dark:bg-slate-800 rounded-2xl shadow hover:shadow-lg transition cursor-pointer
           flex items-center justify-center
-          w-[140px] h-[160px]        // Mobile size
+          w-[160px] h-[180px]        // Mobile size
           sm:w-[180px] sm:h-[220px]  // Small screen
           md:w-[220px] md:h-[280px]  // Desktop size
         "
