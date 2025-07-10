@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useMiniProjects from "../../hooks/useMiniProjects";
-
 import useMidProjects from "../../hooks/useMidProjects";
-
+import LoadingScreen from "../../components/Loader/Loader3D";
 
 const headingStyle = {
   fontFamily: "'Poppins', sans-serif",
@@ -15,7 +14,7 @@ const headingStyle = {
 
 const extraDetails = {
   "Data Visualization Dashboard": {
-    "tech": ["HTML", "Tailwind CSS", "JavaScript"],
+    "tech": ["HTML", "Tailwind CSS", "JavaScript"],
     "prerequisites": [
       "Basic HTML boilerplate knowledge",
       "Familiarity with Tailwind utility classes",
@@ -23,16 +22,16 @@ const extraDetails = {
     ],
     "steps": [
       {
-        "label": "Basic HTML Structure & Tailwind",
-        "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <title>Admin Dashboard – E‑commerce</title>\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body class=\"flex bg-gray-100 min-h-screen\">\n\n  <!-- Sidebar, Main, and JS will go here -->\n\n</body>\n</html>"
+        "label": "Basic HTML Structure & Tailwind",
+        "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <title>Admin Dashboard – E‑commerce</title>\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body class=\"flex bg-gray-100 min-h-screen\">\n\n  \n\n</body>\n</html>"
       },
       {
         "label": "Sidebar Navigation",
-        "code": "<aside class=\"w-64 bg-gray-800 text-white p-6\">\n  <h1 class=\"text-2xl font-bold mb-8\">Admin Panel</h1>\n  <nav class=\"space-y-4\">\n    <button onclick=\"showSection('dashboard')\" class=\"block w-full text-left\">📊 Dashboard</button>\n    <button onclick=\"showSection('products')\" class=\"block w-full text-left\">🛍️ Products</button>\n    <button onclick=\"showSection('orders')\"   class=\"block w-full text-left\">📦 Orders</button>\n    <button onclick=\"showSection('customers')\" class=\"block w-full text-left\">👥 Customers</button>\n    <button onclick=\"showSection('settings')\"  class=\"block w-full text-left\">⚙️ Settings</button>\n  </nav>\n</aside>"
+        "code": "<aside class=\"w-64 bg-gray-800 text-white p-6\">\n  <h1 class=\"text-2xl font-bold mb-8\">Admin Panel</h1>\n  <nav class=\"space-y-4\">\n    <button onclick=\"showSection('dashboard')\" class=\"block w-full text-left\">📊 Dashboard</button>\n    <button onclick=\"showSection('products')\" class=\"block w-full text-left\">🛍️ Products</button>\n    <button onclick=\"showSection('orders')\"   class=\"block w-full text-left\">📦 Orders</button>\n    <button onclick=\"showSection('customers')\" class=\"block w-full text-left\">👥 Customers</button>\n    <button onclick=\"showSection('settings')\"   class=\"block w-full text-left\">⚙️ Settings</button>\n  </nav>\n</aside>"
       },
       {
         "label": "Main Content Sections",
-        "code": "<main class=\"flex-1 p-8 space-y-8 overflow-auto\">\n  <!-- Dashboard -->\n  <section id=\"dashboard\">\n    <h2 class=\"text-2xl font-bold mb-4\">📊 Dashboard Overview</h2>\n    <div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\">\n      <div class=\"bg-white p-4 rounded shadow\"><h3 class=\"text-lg font-semibold\">Total Sales</h3><p>₹2,35,000</p></div>\n      <div class=\"bg-white p-4 rounded shadow\"><h3 class=\"text-lg font-semibold\">Orders</h3><p>60 Orders</p></div>\n      <div class=\"bg-white p-4 rounded shadow\"><h3 class=\"text-lg font-semibold\">Customers</h3><p>20 Customers</p></div>\n    </div>\n  </section>\n\n  <!-- Products -->\n  <section id=\"products\" class=\"hidden\">\n    <h2 class=\"text-2xl font-bold mb-4\">🛍️ Manage Products</h2>\n    <div class=\"mb-4 flex gap-4\">\n      <input id=\"productName\"  type=\"text\"    placeholder=\"Product Name\" class=\"border p-2 rounded w-1/3\">\n      <input id=\"productPrice\" type=\"number\"  placeholder=\"Price (INR)\"  class=\"border p-2 rounded w-1/4\">\n      <button onclick=\"addProduct()\" class=\"bg-blue-600 text-white px-4 py-2 rounded\">Add Product</button>\n    </div>\n    <table class=\"w-full text-left bg-white rounded shadow\">\n      <thead class=\"bg-gray-200\">\n        <tr><th class=\"p-2\">Name</th><th class=\"p-2\">Price (INR)</th><th class=\"p-2\">Actions</th></tr>\n      </thead>\n      <tbody id=\"productList\"></tbody>\n    </table>\n  </section>\n\n  <!-- Orders / Customers / Settings sections replicate the pattern above -->\n</main>"
+        "code": "<main class=\"flex-1 p-8 space-y-8 overflow-auto\">\n  \n  <section id=\"dashboard\">\n    <h2 class=\"text-2xl font-bold mb-4\">📊 Dashboard Overview</h2>\n    <div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\">\n      <div class=\"bg-white p-4 rounded shadow\"><h3 class=\"text-lg font-semibold\">Total Sales</h3><p>₹2,35,000</p></div>\n      <div class=\"bg-white p-4 rounded shadow\"><h3 class=\"text-lg font-semibold\">Orders</h3><p>60 Orders</p></div>\n      <div class=\"bg-white p-4 rounded shadow\"><h3 class=\"text-lg font-semibold\">Customers</h3><p>20 Customers</p></div>\n    </div>\n  </section>\n\n  \n  <section id=\"products\" class=\"hidden\">\n    <h2 class=\"text-2xl font-bold mb-4\">🛍️ Manage Products</h2>\n    <div class=\"mb-4 flex gap-4\">\n      <input id=\"productName\"   type=\"text\"    placeholder=\"Product Name\" class=\"border p-2 rounded w-1/3\">\n      <input id=\"productPrice\" type=\"number\"  placeholder=\"Price (INR)\"  class=\"border p-2 rounded w-1/4\">\n      <button onclick=\"addProduct()\" class=\"bg-blue-600 text-white px-4 py-2 rounded\">Add Product</button>\n    </div>\n    <table class=\"w-full text-left bg-white rounded shadow\">\n      <thead class=\"bg-gray-200\">\n        <tr><th class=\"p-2\">Name</th><th class=\"p-2\">Price (INR)</th><th class=\"p-2\">Actions</th></tr>\n      </thead>\n      <tbody id=\"productList\"></tbody>\n    </table>\n  </section>\n\n  \n</main>"
       },
       {
         "label": "JavaScript Logic (switch sections & CRUD)",
@@ -64,7 +63,7 @@ const extraDetails = {
     steps: [
       {
         label: "Setup HTML & Tailwind",
-        code: `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>VIBE – E-commerce</title>\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body class=\"bg-white text-slate-800\">\n\n  <!-- Content will go here -->\n\n  <script>/* JS goes here */</script>\n</body>\n</html>`
+        code: `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>VIBE – E-commerce</title>\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body class=\"bg-white text-slate-800\">\n\n  \n\n  <script>/* JS goes here */</script>\n</body>\n</html>`
       },
       {
         label: "Add a Sticky Navbar",
@@ -76,11 +75,11 @@ const extraDetails = {
       },
       {
         label: "Categories",
-        code: `<section class=\"py-16 px-8\">\n  <h2 class=\"text-3xl font-bold mb-8\">Shop by Category</h2>\n  <div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\">\n    <div class=\"relative overflow-hidden\">\n      <img src=\"https://source.unsplash.com/600x600/?men-shoes\" class=\"w-full h-80 object-cover\">\n      <div class=\"absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1\">Men</div>\n    </div>\n    <!-- Add Women & Accessories the same way -->\n  </div>\n</section>`
+        code: `<section class=\"py-16 px-8\">\n  <h2 class=\"text-3xl font-bold mb-8\">Shop by Category</h2>\n  <div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\">\n    <div class=\"relative overflow-hidden\">\n      <img src=\"https://source.unsplash.com/600x600/?men-shoes\" class=\"w-full h-80 object-cover\">\n      <div class=\"absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1\">Men</div>\n    </div>\n    \n  </div>\n</section>`
       },
       {
         label: "Popular Products",
-        code: `<section class=\"py-16 px-8\">\n  <h2 class=\"text-3xl font-bold mb-8\">Popular Right Now</h2>\n  <div class=\"grid grid-cols-1 md:grid-cols-4 gap-6\">\n    <div class=\"border p-4 text-center\">\n      <img src=\"https://source.unsplash.com/400x400/?sneakers\" class=\"w-full h-48 object-cover mb-4\">\n      <h3>Vibe Runner</h3>\n      <p>$120</p>\n      <button onclick=\"addToCart()\" class=\"bg-black text-white px-4 py-2\">Add to Cart</button>\n    </div>\n    <!-- Add more products similarly -->\n  </div>\n</section>`
+        code: `<section class=\"py-16 px-8\">\n  <h2 class=\"text-3xl font-bold mb-8\">Popular Right Now</h2>\n  <div class=\"grid grid-cols-1 md:grid-cols-4 gap-6\">\n    <div class=\"border p-4 text-center\">\n      <img src=\"https://source.unsplash.com/400x400/?sneakers\" class=\"w-full h-48 object-cover mb-4\">\n      <h3>Vibe Runner</h3>\n      <p>$120</p>\n      <button onclick=\"addToCart()\" class=\"bg-black text-white px-4 py-2\">Add to Cart</button>\n    </div>\n    \n  </div>\n</section>`
       },
       {
         label: "Join Section",
@@ -265,11 +264,24 @@ const ProjectDetail = () => {
   }, []);
 
   if (!project) {
+    // If there's an id, we are loading; otherwise, it's not found.
+    if (id) {
+      return (
+        <LoadingScreen
+          showMessage={true}
+          fullScreen={true}
+          size={40}
+          duration={800}
+          message="Loading project details..."
+        />
+      );
+    }
+    // If there's no id, it's "Project Not Found"
     return (
       <div className="max-w-6xl mx-auto py-12 px-4">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 text-center">
           <p className="text-gray-800 dark:text-[#e0e6f5]">
-            {id ? "Loading Project..." : "Project Not Found"}
+            Project Not Found
           </p>
         </div>
       </div>
@@ -277,7 +289,6 @@ const ProjectDetail = () => {
   }
 
   const details = extraDetails[project.title] || {};
- 
 
   return (
     <div className="max-w-6xl mx-auto py-12 px-4">
@@ -548,47 +559,47 @@ const ProjectDetail = () => {
             </div>
 
             {/* Try in Compiler Button */}
-           <div className="bg-white rounded-2xl shadow-lg p-6 text-gray-800 text-center">
-        <div className="mb-4">
-          <svg
-            className="w-12 h-12 mx-auto mb-2 text-blue-600 opacity-90"
-            fill="currentColor"
-            viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"/>
-          </svg>
-          <h4
-            className="font-bold text-lg mb-1"
-            style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Try This Project
-          </h4>
-          <p
-            className="text-sm opacity-90"
-            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
-            Code, compile, and run instantly
-          </p>
-        </div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 text-gray-800 text-center">
+              <div className="mb-4">
+                <svg
+                  className="w-12 h-12 mx-auto mb-2 text-blue-600 opacity-90"
+                  fill="currentColor"
+                  viewBox="0 0 20 20">
+                  <path
+                    fillRule="evenodd"
+                    d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"/>
+                </svg>
+                <h4
+                  className="font-bold text-lg mb-1"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  Try This Project
+                </h4>
+                <p
+                  className="text-sm opacity-90"
+                  style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
+                  Code, compile, and run instantly
+                </p>
+              </div>
 
-        <button
-          onClick={() =>
-            window.open(
-              `/compiler?project=${encodeURIComponent(project.title)}`,
-              "_blank"
-            )
-          }
-          className="w-full bg-blue-800 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-900 transition-colors duration-200 shadow-lg"
-          style={{ fontFamily: "'Poppins', sans-serif" }}>
-        Build Project
-        </button>
+              <button
+                onClick={() =>
+                  window.open(
+                    `/compiler?project=${encodeURIComponent(project.title)}`,
+                    "_blank"
+                  )
+                }
+                className="w-full bg-blue-800 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-900 transition-colors duration-200 shadow-lg"
+                style={{ fontFamily: "'Poppins', sans-serif" }}>
+                Build Project
+              </button>
 
-        <p
-          className="text-xs opacity-75 mt-3"
-          style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
-          Interactive coding environment with live preview
-        </p>
-                </div>
+              <p
+                className="text-xs opacity-75 mt-3"
+                style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
+                Interactive coding environment with live preview
+              </p>
+            </div>
 
           </div>
         </div>
