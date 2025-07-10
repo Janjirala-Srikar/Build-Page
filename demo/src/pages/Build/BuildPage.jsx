@@ -3,7 +3,7 @@ import MiniProjectCard from "../../components/Build/MiniProjectCard";
 import MajorProjectCard from "../../components/Build/MajorProjectCard";
 import MidLevelProjectsAnimatedLayout from "../../components/Build/MidLevelProjectsAnimatedLayout";
 import { useNavigate } from "react-router-dom";
-import AccessPopup from "../../utils/accessPopup";
+import AccessPopup from "../../utils/accessPopup.jsx";
 import useMiniProjects from "../../hooks/useMiniProjects";
 import useMidProjects from "../../hooks/useMidProjects";
 import useMajorProjects from "../../hooks/useMajorProjects";
@@ -44,93 +44,108 @@ const BuildPage = () => {
   }));
 
   return (
-    <main className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 pt-0 pb-16" style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
-      {/* Hero/Header Section */}
-      <div className="w-full flex flex-row items-center justify-between min-h-screen px-1 sm:px-4">
-        {/* Left: Huge Heading */}
-        <div className="flex-1">
+    <main className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 pb-16" style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
+      {/* Hero Section */}
+      <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between min-h-screen px-1 sm:px-4">
+        {/* Left: Headings */}
+        <div className="flex-1 pt-14 md:pt-0">
           <h1
             className="
-              header-gradient
-              mb-2 md:mb-4 lowercase leading-none text-5xl md:text-8xl lg:text-9xl
-              dark:text-transparent
-              dark:bg-gradient-to-r dark:from-blue-400 dark:via-indigo-300 dark:to-purple-300
-              dark:bg-clip-text
+              brand-heading-primary hover-gradient-text
+              mb-2 md:mb-4 lowercase leading-none
+              font-medium italic
+              text-5xl sm:text-5xl md:text-7xl md:text-9xl
             "
             style={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1 }}>
             build
           </h1>
           <h1
             className="
-              header-gradient
-              mt-2 md:mt-4 uppercase leading-none text-5xl md:text-8xl lg:text-9xl
-              dark:text-transparent
-              dark:bg-gradient-to-r dark:from-blue-400 dark:via-indigo-300 dark:to-purple-300
-              dark:bg-clip-text
+              brand-heading-primary hover-gradient-text
+              mt-2 md:mt-4 uppercase leading-none
+              font-medium tracking-wide
+              text-6xl sm:text-6xl md:text-8xl md:text-[10rem]
             "
             style={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1 }}>
             PROJECTS
           </h1>
           <p
             className="
-              mt-6 mb-3 sm:mb-6 text-[#1356D3] text-base md:text-2xl lg:text-3xl
-              dark:text-blue-300
+              mt-6 mb-3 sm:mb-6 text-base md:text-2xl lg:text-3xl
+              font-poppins text-gray-700 dark:text-gray-300 hover-gradient-text
             "
             style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             Whoa! You're dangerously close to becoming a real coder
           </p>
+          {/* GIF - centered and huge on mobile */}
+          <div className="flex-shrink-0 flex items-center justify-center w-full mt-2 md:hidden">
+            {/* Light mode GIF */}
+            <img
+              src="https://i.postimg.cc/k4MzD8PC/blue-cup-unscreen.gif"
+              alt="Blue Cup"
+              className="w-96 h-96 sm:w-[28rem] sm:h-[28rem] object-contain rounded-2xl block dark:hidden"
+              style={{ background: "transparent" }}
+            />
+            {/* Dark mode GIF */}
+            <img
+              src="/blue_cup_light.gif"
+              alt="Blue Cup Light"
+              className="w-96 h-96 sm:w-[28rem] sm:h-[28rem] object-contain rounded-2xl hidden dark:block"
+              style={{ background: "transparent" }}
+            />
+          </div>
         </div>
-        {/* Right: Huge GIF */}
-        <div className="flex-shrink-0 ml-2 sm:ml-8 flex items-center justify-center h-full">
+        {/* GIF - right side on desktop */}
+        <div className="flex-shrink-0 flex items-center justify-center h-full ml-2 sm:ml-8 hidden md:flex">
           {/* Light mode GIF */}
           <img
             src="https://i.postimg.cc/k4MzD8PC/blue-cup-unscreen.gif"
             alt="Blue Cup"
-            className="w-32 h-32 xs:w-48 xs:h-48 sm:w-64 sm:h-64 md:w-[350px] md:h-[350px] lg:w-[420px] lg:h-[420px] object-contain rounded-2xl block dark:hidden"
-            style={{
-              background: "transparent",
-            }}
+            className="md:w-[350px] md:h-[350px] lg:w-[420px] lg:h-[420px] object-contain rounded-2xl block dark:hidden"
+            style={{ background: "transparent" }}
           />
           {/* Dark mode GIF */}
           <img
-            src="/assets/blue_cup_light.gif"
+            src="/blue_cup_light.gif"
             alt="Blue Cup Light"
-            className="w-32 h-32 xs:w-48 xs:h-48 sm:w-64 sm:h-64 md:w-[350px] md:h-[350px] lg:w-[420px] lg:h-[420px] object-contain rounded-2xl hidden dark:block"
-            style={{
-              background: "transparent",
-            }}
+            className="md:w-[350px] md:h-[350px] lg:w-[420px] lg:h-[420px] object-contain rounded-2xl hidden dark:block"
+            style={{ background: "transparent" }}
           />
         </div>
       </div>
 
-      {/* Mini Projects Section (starts after 100vh) */}
+      {/* Mini Projects Section */}
       <section className="mb-16 max-w-7xl mx-auto px-2 sm:px-4 md:px-8">
         <div style={{ marginBottom: "0.15rem" }}>
           <span
-            className="section-header italic text-[#1356D3] dark:text-blue-300"
-          >
+            className="
+              brand-heading-primary hover-gradient-text italic
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             mini
           </span>
           <span
-            className="section-header ml-2 text-[#1356D3] dark:text-blue-300"
-          >
+            className="
+              brand-heading-primary hover-gradient-text ml-2
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             PROJECTS
           </span>
         </div>
         <div
-          className="font-sans text-[#007bff] text-[1.1rem] mb-12 mt-[0.1rem] dark:text-blue-300"
+          className="font-sans text-[1.2rem] mb-12 mt-[0.1rem] text-gray-700 dark:text-gray-300 hover-gradient-text"
           style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
           because crying over big ones is overrated
         </div>
 
         {loading ? (
-          <LoadingScreen 
-    message="Loading mini projects..." 
-    showMessage={true}
-    fullScreen={true}
-    size={40}
-    duration={800}
-  />
+          <LoadingScreen
+            showMessage={true}
+            fullScreen={true}
+            size={40}
+            duration={800}/>
         ) : error ? (
           <p style={{ color: "#dc2626" }}>Error: {error}</p>
         ) : (
@@ -152,15 +167,25 @@ const BuildPage = () => {
       {/* Mid-Level Projects Section */}
       <section className="mb-16">
         <div style={{ marginBottom: "0.15rem" }}>
-          <span className="section-header italic text-[#1356D3] dark:text-blue-300">
+          <span
+            className="
+              brand-heading-primary hover-gradient-text italic
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             mid
           </span>
-          <span className="section-header ml-2 text-[#1356D3] dark:text-blue-300">
+          <span
+            className="
+              brand-heading-primary hover-gradient-text ml-2
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             PROJECTS
           </span>
         </div>
         <div
-          className="font-sans text-[#007bff] text-[1.1rem] mb-12 mt-[0.1rem] dark:text-blue-300"
+          className="font-sans text-[1.2rem] mb-12 mt-[0.1rem] text-gray-700 dark:text-gray-300 hover-gradient-text"
           style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
           for when you want to flex a little harder
         </div>
@@ -172,24 +197,33 @@ const BuildPage = () => {
         ) : (
           <MidLevelProjectsAnimatedLayout
             projects={processedMidProjects}
-            setShowPopup={setShowPopup} />
+            setShowPopup={setShowPopup}/>
         )}
       </section>
 
-      {/* Major Projects Section */}
       <section className="mb-12">
         <div style={{ marginBottom: "0.15rem" }}>
-          <span className="section-header italic text-[#1356D3] dark:text-blue-300">
+          <span
+            className="
+              brand-heading-primary hover-gradient-text italic
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             major
           </span>
-          <span className="section-header ml-2 text-[#1356D3] dark:text-blue-300">
+          <span
+            className="
+              brand-heading-primary hover-gradient-text ml-2
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             PROJECTS
           </span>
         </div>
         <div
-          className="font-sans text-[#007bff] text-[1.1rem] mb-12 mt-[0.1rem] dark:text-blue-300"
+          className="font-sans text-[1.2rem] mb-12 mt-[0.1rem] text-gray-700 dark:text-gray-300 hover-gradient-text"
           style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
-          for the ultimate show-off (and placements!)
+          for the ultimate show-off
         </div>
         {loadingMajor ? (
           <p style={{ color: "#059669" }}>Loading major projects...</p>
@@ -228,41 +262,79 @@ const BuildPage = () => {
       </section>
 
       {/* UI Source Library Section */}
-      <section
-        className="mt-14 py-10"
-        style={{
-        }}>
+      <section className="mt-14 py-10">
         {/* Heading */}
         <div className="mb-10 px-6">
           <span
-            className="text-3xl font-semibold italic text-[#007bff] dark:text-blue-300"
-            style={{ fontFamily: "'Poppins', sans-serif" }}>
+            className="
+              brand-heading-primary hover-gradient-text italic
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             design
           </span>
           <span
-            className="text-3xl font-semibold ml-2 text-[#007bff] dark:text-blue-300"
-            style={{ fontFamily: "'Poppins', sans-serif" }}>
+            className="
+              brand-heading-primary hover-gradient-text ml-2
+              text-3xl md:text-5xl font-semibold
+            "
+            style={{ fontFamily: "system-ui, 'Inter', sans-serif" }}>
             LAB
           </span>
         </div>
 
-        {/* Tile Layout */}
-        <div className="w-full flex flex-wrap justify-center gap-4 px-6">
-          {[
-            "Cards", "Loaders", "Forms", "Buttons", "3D Buttons", "Hover Buttons",
-            "Inputs", "Checkboxes", "Toggles", "Tooltips", "Alerts", "Badges",
-            "Pagination", "Tabs"
-          ].map((label) => (
-            <div
-              key={label}
-              className="px-8 py-3 rounded-full bg-white/60 text-[#0600a6] text-base font-semibold"
-              style={{
-                fontFamily: "'Poppins', sans-serif",
-                minWidth: "120px",
-              }}>
-              {label}
-            </div>
-          ))}
+        {/* Three Marquee Rows */}
+        <div className="overflow-hidden w-full space-y-6">
+          {/* Row 1: Right to Left */}
+          <div className="flex whitespace-nowrap animate-marquee-rtl gap-4">
+            {[
+              "Cards", "Loaders", "Forms", "Buttons", "3D Buttons", "Hover Buttons", "Inputs"
+            ].concat([
+              "Cards", "Loaders", "Forms", "Buttons", "3D Buttons", "Hover Buttons", "Inputs"
+            ]).map((label, idx) => (
+              <div
+                key={label + idx}
+                className="flex items-center justify-center px-8 py-3 rounded-full bg-white/60 text-[#0600a6] text-base font-semibold min-w-[120px] max-w-xs truncate"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+
+          {/* Row 2: Left to Right */}
+          <div className="flex whitespace-nowrap animate-marquee-ltr gap-4">
+            {[
+              "Checkboxes", "Toggles", "Tooltips", "Alerts", "Badges", "Pagination", "Tabs"
+            ].concat([
+              "Checkboxes", "Toggles", "Tooltips", "Alerts", "Badges", "Pagination", "Tabs"
+            ]).map((label, idx) => (
+              <div
+                key={label + idx}
+                className="flex items-center justify-center px-8 py-3 rounded-full bg-white/60 text-[#0600a6] text-base font-semibold min-w-[120px] max-w-xs truncate"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+
+          {/* Row 3: Right to Left */}
+          <div className="flex whitespace-nowrap animate-marquee-rtl gap-4">
+            {[
+              "Sliders", "Modals", "Dropdowns", "Accordions", "Carousels", "Progress Bars", "Toolbars"
+            ].concat([
+              "Sliders", "Modals", "Dropdowns", "Accordions", "Carousels", "Progress Bars", "Toolbars"
+            ]).map((label, idx) => (
+              <div
+                key={label + idx}
+                className="flex items-center justify-center px-8 py-3 rounded-full bg-white/60 text-[#0600a6] text-base font-semibold min-w-[120px] max-w-xs truncate"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
