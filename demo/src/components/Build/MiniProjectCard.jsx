@@ -5,12 +5,16 @@ const MiniProjectCard = ({ project }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center" style={{ margin: "0 12px" }}>
+    <div className="flex flex-col items-center mx-3">
       <div
-        className="bg-[#e8ebf0] dark:bg-slate-800 rounded-2xl shadow hover:shadow-lg transition cursor-pointer flex items-center justify-center"
+        className="
+          bg-[#e8ebf0] dark:bg-slate-800 rounded-2xl shadow hover:shadow-lg transition cursor-pointer
+          flex items-center justify-center
+          w-[140px] h-[160px]        // Mobile size
+          sm:w-[180px] sm:h-[220px]  // Small screen
+          md:w-[220px] md:h-[280px]  // Desktop size
+        "
         style={{
-          width: "220px",
-          height: "280px",
           boxSizing: "border-box",
           overflow: "hidden",
         }}
