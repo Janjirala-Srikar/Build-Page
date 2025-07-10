@@ -35,7 +35,7 @@ const MiniProjectCard = ({ project }) => {
       <div
         className="mt-4 text-center font-medium text-black dark:text-white"
         style={{
-          fontSize: "1.1rem",
+          fontSize: "1.0rem",
           fontFamily: "'Poppins', sans-serif",
           letterSpacing: "0.2px",
         }}
